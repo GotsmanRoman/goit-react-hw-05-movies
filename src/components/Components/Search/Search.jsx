@@ -30,7 +30,11 @@ export default function Search() {
   // };
 
   return (
-    <Form>
+    <Form
+      onSubmit={event => {
+        event.preventDefault();
+      }}
+    >
       <DebounceInput
         placeholder={'input search keywords'}
         element={Input}
