@@ -6,6 +6,7 @@ export const Container = styled.div`
   flex-direction: column;
   gap: 20px;
   padding: 20px;
+  padding-top: 0;
 `;
 export const MovieInfo = styled.div`
   display: flex;
@@ -15,6 +16,7 @@ export const AdditionalInfo = styled.div`
   padding: 0;
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
 `;
 export const Title = styled.h3`
   margin: 0;
@@ -43,6 +45,11 @@ export const FilmGenres = styled.h3``;
 export const FilmGenresList = styled.div``;
 
 export const ReturnBackLink = styled(Link)`
+  margin-left: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  padding: 10px 0;
   width: 120px;
   text-decoration: none;
   &:hover {

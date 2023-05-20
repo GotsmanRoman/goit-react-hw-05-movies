@@ -1,25 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import Search from '../Components/Search/Search';
 import { PageTitle } from './index.module';
 import { fetchMovieByName } from 'components/Components/utils/API';
 import Loader from 'components/Components/Loader/Loader';
-import Notiflix from 'notiflix';
-
-Notiflix.Notify.init({
-  width: '280px',
-  position: 'center-top', // 'right-top' - 'right-bottom' - 'left-top' - 'left-bottom' - 'center-top' - 'center-bottom' - 'center-center'
-  distance: '100px',
-  clickToClose: true,
-});
-function showError(valueToFade = '2000') {
-  Notiflix.Notify.failure(
-    'Sorry, there are no movies matching your search query. Please try again.',
-    {
-      timeout: valueToFade,
-    }
-  );
-}
 
 export default function Movies() {
   const [query, setQuery] = useState('');
@@ -27,10 +11,17 @@ export default function Movies() {
   const [isLoading, setLoading] = useState(false);
   const location = useLocation();
 
+  const [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get('query') ?? '';
+
   useEffect(() => {
-    if (query === '') {
-      return;
+    // if (query === '') {
+    //   return;
+    // }
+    if (searchQuery) {
+      setQuery(searchQuery);
     }
+
     const getMovieByName = async query => {
       try {
         setLoading(true);
@@ -38,22 +29,21 @@ export default function Movies() {
         const { results } = await fetchMovieByName(query);
         setMovies(results);
         setLoading(false);
-        if (results.length === 0) showError();
-      } catch {
-        console.log('error');
+      } catch (error) {
+        console.log(error);
       }
     };
     getMovieByName(query);
-  }, [query]);
+  }, [query, searchQuery]);
 
-  const handlerFormSubmit = search => {
-    setQuery(search);
-  };
+  // const handlerFormSubmit = search => {
+  //   setQuery(search);
+  // };
 
   return (
     <div>
       <PageTitle>Movies</PageTitle>
-      <Search onSubmit={handlerFormSubmit}></Search>
+      <Search></Search>
       {isLoading ? (
         <Loader />
       ) : (
@@ -61,7 +51,7 @@ export default function Movies() {
           {movies.map(item => {
             return (
               <li key={item.id}>
-                <Link to={`/movies/${item.id}`} state={location}>
+                <Link to={`/movies/${item.id}`} state={{ from: location }}>
                   {item.original_title}
                 </Link>
               </li>

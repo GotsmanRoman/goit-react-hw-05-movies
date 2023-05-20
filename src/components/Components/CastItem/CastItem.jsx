@@ -5,6 +5,7 @@ import {
   ActorInfo,
   ActorRole,
 } from './CastItem.module';
+import Loader from '../Loader/Loader';
 import PropTypes from 'prop-types';
 
 export default function CastItem({ credits }) {
@@ -13,7 +14,7 @@ export default function CastItem({ credits }) {
   return (
     <>
       {!Object.keys(credits).length ? (
-        <div>Still Loading</div>
+        <Loader />
       ) : (
         <Container>
           {cast.map(item => {
@@ -33,6 +34,5 @@ export default function CastItem({ credits }) {
   );
 }
 CastItem.propTypes = {
-  //movieId: PropTypes.arrayOf(PropTypes.object).isRequired,
   credits: PropTypes.object.isRequired,
 };

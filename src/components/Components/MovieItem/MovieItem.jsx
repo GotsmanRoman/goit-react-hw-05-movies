@@ -1,4 +1,4 @@
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   Container,
@@ -15,7 +15,6 @@ import {
   FilmOverviewText,
   FilmGenres,
   FilmGenresList,
-  ReturnBackLink,
 } from './MovieItem.module';
 import Loader from '../Loader/Loader';
 
@@ -28,7 +27,6 @@ export default function MovieItem({ movie }) {
     genres,
     release_date,
   } = movie;
-  const location = useLocation();
 
   return (
     <>
@@ -36,7 +34,6 @@ export default function MovieItem({ movie }) {
         <Loader />
       ) : (
         <Container>
-          <ReturnBackLink to={location.state}>Return back</ReturnBackLink>
           <MovieInfo>
             <Poster
               src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2/${backdrop_path}`}

@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSearchParams } from 'react-router-dom';
-import { Form, Input, Button } from './Search.module.jsx';
+import { Form, Input } from './Search.module.jsx';
+import { DebounceInput } from 'react-debounce-input';
 
-export default function Search({ onSubmit }) {
+export default function Search() {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get('query') ?? '';
 
-  const [query, setQuery] = useState('');
+  const [, setQuery] = useState('');
 
   const handleChange = event => {
     const pageQuery = event.target.value;
@@ -18,20 +19,26 @@ export default function Search({ onSubmit }) {
       setSearchParams({ query: pageQuery });
     }
   };
-  const handleSubmit = event => {
-    event.preventDefault();
+  // const handleSubmit = event => {
+  //   event.preventDefault();
 
-    onSubmit(searchQuery);
-    resetForm();
-  };
-  const resetForm = () => {
-    setQuery('');
-  };
+  //   onSubmit(searchQuery);
+  //   resetForm();
+  // };
+  // const resetForm = () => {
+  //   setQuery('');
+  // };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Input type="text" value={searchQuery} onChange={handleChange}></Input>
-      <Button>Search</Button>
+    <Form>
+      <DebounceInput
+        placeholder={'input search keywords'}
+        element={Input}
+        minLength={3}
+        debounceTimeout={500}
+        onChange={handleChange}
+        value={searchQuery}
+      />
     </Form>
   );
 }

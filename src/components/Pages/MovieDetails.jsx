@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect, useState, useRef } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
 import { fetchMovieById } from 'components/Components/utils/API';
 import MovieItem from 'components/Components/MovieItem/MovieItem';
+import { ReturnBackLink } from '../Components/MovieItem/MovieItem.module';
 import Loader from 'components/Components/Loader/Loader';
 
 export default function MovieDetails() {
   const { movieId } = useParams();
   const [movie, setMovie] = useState({});
   const [isLoading, setLoading] = useState(false);
-
-  // console.log(userLocationRef.current);
+  const location = useLocation();
+  const { current } = useRef(location.state?.from ?? '/');
+  //console.log(location.state.pathname + location.state.search);
 
   useEffect(() => {
     const getMovieById = async id => {
@@ -31,6 +33,7 @@ export default function MovieDetails() {
         <Loader />
       ) : (
         <>
+          <ReturnBackLink to={current}>Return back</ReturnBackLink>
           <MovieItem movie={movie} isLoading={isLoading}></MovieItem>
         </>
       )}

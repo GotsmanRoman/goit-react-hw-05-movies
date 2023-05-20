@@ -16,14 +16,18 @@ export default function ReviewItem({ reviews }) {
         <Loader />
       ) : (
         <Container>
-          {results.map(item => {
-            return (
-              <ReviewData key={item.id}>
-                <ReviewInfo>Author: {item.author}</ReviewInfo>
-                <ReviewText>Character: {item.content}</ReviewText>
-              </ReviewData>
-            );
-          })}
+          {results.length ? (
+            results.map(item => {
+              return (
+                <ReviewData key={item.id}>
+                  <ReviewInfo>Author: {item.author}</ReviewInfo>
+                  <ReviewText>Character: {item.content}</ReviewText>
+                </ReviewData>
+              );
+            })
+          ) : (
+            <ReviewData>No reviews for this movie</ReviewData>
+          )}
         </Container>
       )}
     </>
